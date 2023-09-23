@@ -1,0 +1,30 @@
+.container {
+  text-align: center;
+}
+h2 {
+  font-family: "Jua", sans-serif;
+}
+.buttonSignIn,
+.buttonSignUp {
+  display: block;
+  cursor: pointer;
+  transition: all 0.1s ease-in;
+  background: teal;
+  color: white;
+  border-radius: 10px;
+  margin: 20px;
+  font-size: 20px;
+  font-family: "Jua", sans-serif;
+  letter-spacing: 1px;
+  border-width: thick;
+  padding: 5px;
+}
+
+.wrapper {
+  display: grid;
+  grid-template-columns: repeat(8, 1fr);
+}
+
+.buttonSignUp {
+  grid-column: 4;
+}
