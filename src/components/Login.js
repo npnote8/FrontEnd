@@ -1,13 +1,12 @@
-import Cookies from "universal-cookie";
-import { Context } from "../App";
+// import Cookies from "universal-cookie";
 
-import axios from "axios";
+import { useNavigate } from "react-router-dom";
+import { AuthData } from "./AuthWrapper";
 import FullScreenSection from "./FullScreenSection";
 import { EmailIcon } from "@chakra-ui/icons";
-import { useContext, useState } from "react";
+import { useState } from "react";
+
 import {
-  Flex,
-  Heading,
   Input,
   Button,
   InputGroup,
@@ -16,65 +15,45 @@ import {
   chakra,
   Box,
   Link,
-  Avatar,
   FormControl,
   FormHelperText,
   InputRightElement,
   Text,
   Container,
 } from "@chakra-ui/react";
-import { FaUserAlt, FaLock } from "react-icons/fa";
+import { FaLock } from "react-icons/fa";
 
-const cookies = new Cookies();
+// const cookies = new Cookies();
 
-const CFaUserAlt = chakra(FaUserAlt);
 const CFaLock = chakra(FaLock);
 
-const Login = ({ updateUser }) => {
+export function Login() {
+  const { login } = AuthData();
+  const navigate = useNavigate();
   const [showPassword, setShowPassword] = useState(false);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [login, setLogin] = useState(false);
-  const { setUser } = useContext(Context);
 
-  const handleSubmit = (e) => {
-    // prevent the form from refreshing the whole page
+  const doLogin = async (e) => {
     e.preventDefault();
 
-    const configuration = {
-      method: "post",
-      url: "http://localhost:5000/api/v1/auth/login",
-      // data contains all the input or request body that the backend expects
-      data: {
-        email,
-        password,
-      },
+    console.log("email", email);
+    console.log("password", password);
+    const userInformation = {
+      email,
+      password,
     };
+    console.log(userInformation);
 
-    axios(configuration)
-      .then((result) => {
-        console.log("result", result);
-        setLogin(true);
-        console.log("updateUser", typeof updateUser);
-        setUser(result.data.user);
-        // set the cookie
-        // cookie.set() takes three arguments: Name of the cookie ("TOKEN"), Value of the cookie (result.data.token), and on which page or route you want it to be available (setting the path to "/" makes the cookie available in all the pages)
-        cookies.set("TOKEN", result.data.token, {
-          path: "/",
-        });
-        // to redirect the user to the authComponent after a successful login
-        window.location.href = "/auth";
-      })
-      .catch((error) => {
-        console.log(error);
-        error = new Error();
-      });
+    // registerUser(userInformation);
+    login(userInformation);
+    navigate("/meals");
   };
 
   const handleShowClick = () => setShowPassword(!showPassword);
 
   return (
-    <FullScreenSection>
+    <FullScreenSection backgroundColor={"gray.200"}>
       <Container
         maxW="lg"
         py={{ base: "12", md: "24" }}
@@ -89,10 +68,10 @@ const Login = ({ updateUser }) => {
           alignItems="center"
         >
           <Text fontSize="2xl" pb={5} as="b">
-            Login to onTrack
+            Sign In to onTrack
           </Text>
           <Box minW={{ base: "90%", md: "468px" }}>
-            <form onSubmit={(e) => handleSubmit(e)}>
+            <form onSubmit={doLogin}>
               <Stack
                 spacing={4}
                 p="1rem"
@@ -144,9 +123,9 @@ const Login = ({ updateUser }) => {
                   variant="solid"
                   colorScheme="teal"
                   width="full"
-                  onClick={(e) => handleSubmit(e)}
+                  onClick={doLogin}
                 >
-                  Login
+                  Sign In
                 </Button>
               </Stack>
             </form>
@@ -158,12 +137,7 @@ const Login = ({ updateUser }) => {
             Create an Account
           </Link>
         </Box>
-        <Text fontSize="md" pb={5}>
-          {login ? "You Are Logged in Successfully" : "You Are Not Logged in"}
-        </Text>
       </Container>
     </FullScreenSection>
   );
-};
-
-export default Login;
+}

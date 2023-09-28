@@ -1,51 +1,52 @@
+// const { Link } = require("react-router-dom");
 import {
   Box,
   Flex,
-  Avatar,
   HStack,
-  Text,
   IconButton,
   Button,
-  Menu,
-  MenuButton,
-  MenuList,
-  MenuItem,
-  MenuDivider,
   useDisclosure,
   useColorModeValue,
   Stack,
   Link,
+  Text,
 } from "@chakra-ui/react";
+
+import Homepage from "./Homepage";
+import NutritionFacts from "./NutritionFacts";
+import Profile from "./Profile";
+import Meals from "./Meals";
 import { HamburgerIcon, CloseIcon } from "@chakra-ui/icons";
 
-const Links = [
-  { name: "Home", href: "/" },
-  { name: "Meals", href: "/meals" },
-  { name: "Statistics", href: "/statistics" },
-  { name: "FreeComponent", href: "/free" },
-  { name: "AuthComponent", href: "/auth" },
+const nav = [
+  {
+    path: "/",
+    name: "Home",
+    element: <Homepage />,
+  },
+
+  {
+    path: "/facts",
+    name: "Nutrition Facts",
+    element: <NutritionFacts />,
+  },
+  {
+    path: "/profile",
+    name: "Profile",
+    element: <Profile />,
+  },
+
+  { path: "/meals", name: "Meals", element: <Meals /> },
 ];
+const Navbar = () => {
+  const token = localStorage.getItem("token");
 
-const NavLink = ({ children }) => {
-  return (
-    <Box
-      as="a"
-      px={2}
-      py={1}
-      color="white"
-      rounded={"md"}
-      _hover={{
-        bg: useColorModeValue("teal.300"),
-      }}
-    >
-      {children}
-    </Box>
-  );
-};
-
-export default function Navbar() {
   const { isOpen, onOpen, onClose } = useDisclosure();
 
+  const logout = (e) => {
+    localStorage.removeItem("token");
+    window.location.reload();
+  };
   return (
     <>
       <Box
@@ -63,18 +64,9 @@ export default function Navbar() {
             onClick={isOpen ? onClose : onOpen}
           />
           <HStack spacing={8} alignItems={"center"} as={"nav"}>
-            <Link
-              fontSize="3xl"
-              color="white"
-              as="b"
-              href="/"
-              _hover={{
-                textDecoration: "none",
-              }}
-              m={[3, 12]}
-            >
+            <Text fontSize="3xl" color="white" as="b" m={[3, 12]}>
               onTrack
-            </Link>
+            </Text>
           </HStack>
           <Flex alignItems={"center"}>
             <HStack
@@ -82,20 +74,10 @@ export default function Navbar() {
               spacing={4}
               display={{ base: "none", md: "flex" }}
             >
-              {Links.map((link) => (
-                /*    <NavLink key={link.name}>
-                  <Link
-                    href={link.href}
-                    _hover={{
-                      textDecoration: "none",
-                    }}
-                  >
-                    {link.name}
-                  </Link>
-                </NavLink> */
+              {nav.map((link) => (
                 <Link
                   key={link.name}
-                  href={link.href}
+                  href={link.path}
                   color="white"
                   _hover={{
                     textDecoration: "none",
@@ -104,21 +86,54 @@ export default function Navbar() {
                   {link.name}
                 </Link>
               ))}
-
-              <Button
-                as={"a"}
-                variant={"solid"}
-                display={{ base: "none", md: "inline-flex" }}
-                size={"sm"}
-                mr={4}
-                fontWeight={600}
-                href={"/login"}
-                _hover={{
-                  bg: "teal.300",
-                }}
-              >
-                Sign In
-              </Button>
+              {token ? (
+                <Button
+                  onClick={logout}
+                  as={"a"}
+                  variant={"solid"}
+                  display={{ base: "none", md: "inline-flex" }}
+                  size={"sm"}
+                  mr={4}
+                  fontWeight={600}
+                  // href={"#"}
+                  _hover={{
+                    bg: "teal.300",
+                  }}
+                >
+                  Log out
+                </Button>
+              ) : (
+                <>
+                  <Button
+                    as={"a"}
+                    variant={"solid"}
+                    display={{ base: "none", md: "inline-flex" }}
+                    size={"sm"}
+                    mr={4}
+                    fontWeight={600}
+                    href={"/login"}
+                    _hover={{
+                      bg: "teal.300",
+                    }}
+                  >
+                    Sign In
+                  </Button>
+                  <Button
+                    as={"a"}
+                    variant={"solid"}
+                    display={{ base: "none", md: "inline-flex" }}
+                    size={"sm"}
+                    mr={4}
+                    fontWeight={600}
+                    href={"/signup"}
+                    _hover={{
+                      bg: "teal.300",
+                    }}
+                  >
+                    Sign Up
+                  </Button>
+                </>
+              )}
             </HStack>
           </Flex>
         </Flex>
@@ -126,32 +141,25 @@ export default function Navbar() {
         {isOpen ? (
           <Box pb={4} display={{ md: "none" }}>
             <Stack as={"nav"} spacing={4}>
-              {Links.map((link) => (
-                /*     <NavLink key={link.name}>
+              {nav.map((link) => {
+                return (
                   <Link
-                    href={link.href}
+                    key={link.name}
+                    href={link.path}
+                    color="white"
                     _hover={{
                       textDecoration: "none",
                     }}
                   >
                     {link.name}
                   </Link>
-                </NavLink> */
-                <Link
-                  key={link.name}
-                  href={link.href}
-                  color="white"
-                  _hover={{
-                    textDecoration: "none",
-                  }}
-                >
-                  {link.name}
-                </Link>
-              ))}
+                );
+              })}
             </Stack>
           </Box>
         ) : null}
       </Box>
     </>
   );
-}
+};
+export default Navbar;

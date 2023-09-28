@@ -1,14 +1,16 @@
 import * as React from "react";
-import { Container, Box, VStack } from "@chakra-ui/react";
+import { Box, VStack } from "@chakra-ui/react";
 
 /**
- * Illustrates the use of children prop and spread operator
+ * Illustrates the use of children prop
  */
-const FullScreenSection = ({ children }) => {
+const FullScreenSection = ({ children, ...boxProps }) => {
   return (
-    <Box minHeight="100vh" backgroundColor={"gray.200"} display="grid">
-      {children}
-    </Box>
+    <VStack backgroundColor={boxProps.backgroundColor}>
+      <Box minHeight="100vh" display="grid">
+        {children}
+      </Box>
+    </VStack>
   );
 };
 
