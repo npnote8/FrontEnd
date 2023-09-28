@@ -1,11 +1,18 @@
+@import url("https://fonts.googleapis.com/css?family=Josefin+Sans");
+@import url("https://fonts.googleapis.com/css2?family=Calistoga&family=Fredoka+One&family=Waiting+for+the+Sunrise&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Calistoga&family=Fredoka+One&family=Jua&family=Waiting+for+the+Sunrise&display=swap");
+
 .container {
   text-align: center;
 }
-h2 {
+h2,
+h4 {
   font-family: "Jua", sans-serif;
 }
 .buttonSignIn,
-.buttonSignUp {
+.buttonSignUp,
+.buttonLogOut,
+.buttonShowMeals {
   display: block;
   cursor: pointer;
   transition: all 0.1s ease-in;
@@ -14,7 +21,7 @@ h2 {
   border-radius: 10px;
   margin: 20px;
   font-size: 20px;
-  font-family: "Jua", sans-serif;
+  /* font-family: "Jua", sans-serif; */
   letter-spacing: 1px;
   border-width: thick;
   padding: 5px;
@@ -25,6 +32,10 @@ h2 {
   grid-template-columns: repeat(8, 1fr);
 }
 
-.buttonSignUp {
+.buttonSignIn {
+  grid-column: 4;
+}
+
+.buttonShowMeals {
   grid-column: 4;
 }

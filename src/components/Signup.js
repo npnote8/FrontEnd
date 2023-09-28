@@ -2,8 +2,6 @@ import FullScreenSection from "./FullScreenSection";
 import axios from "axios";
 import { useState } from "react";
 import {
-  Flex,
-  Heading,
   Input,
   Button,
   InputGroup,
@@ -12,13 +10,11 @@ import {
   chakra,
   Box,
   Link,
-  Avatar,
   FormControl,
   FormHelperText,
   InputRightElement,
   Text,
   Container,
-  Image,
 } from "@chakra-ui/react";
 import { FaUserAlt, FaLock } from "react-icons/fa";
 import { EmailIcon } from "@chakra-ui/icons";
@@ -32,6 +28,7 @@ const Signup = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [register, setRegister] = useState(false);
+
   const handleSubmit = (e) => {
     // prevent the form from refreshing the whole page
     e.preventDefault();
@@ -64,7 +61,7 @@ const Signup = () => {
   const handleShowClick = () => setShowPassword(!showPassword);
 
   return (
-    <FullScreenSection>
+    <FullScreenSection backgroundColor={"gray.200"}>
       <Container
         maxW="lg"
         py={{ base: "12", md: "24" }}
@@ -139,9 +136,9 @@ const Signup = () => {
                       </Button>
                     </InputRightElement>
                   </InputGroup>
-                  <FormHelperText textAlign="right">
+                  {/*   <FormHelperText textAlign="right">
                     <Link>forgot password?</Link>
-                  </FormHelperText>
+                  </FormHelperText> */}
                 </FormControl>
                 <Button
                   borderRadius="lg"
@@ -157,22 +154,27 @@ const Signup = () => {
             </form>
           </Box>
         </Stack>
-        <Box>
+        {/*    <Box>
           already have an account?{" "}
           <Link color="teal.500" href="/login">
             Log in
           </Link>
-        </Box>
-        {/*  <Box display="grid">
-          <Image src={require("./assets/balloons.jpg")} />
         </Box> */}
 
-        {/* conditional statement to display a success message when the register is true*/}
-        <Text fontSize="md" pb={5}>
-          {register
-            ? "You Are Registered Successfully"
-            : "You Are Not Registered"}
-        </Text>
+        {/* to display a success message when the register is true*/}
+        <Box>
+          {register && (
+            <>
+              <Box>
+                Account created. Now you can{" "}
+                <Link color="teal.500" href="/login">
+                  Sign In
+                </Link>
+              </Box>
+            </>
+          )}
+          {!register && <Text>You are not registered</Text>}
+        </Box>
       </Container>
     </FullScreenSection>
   );
